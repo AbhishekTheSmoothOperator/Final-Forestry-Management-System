@@ -1,0 +1,286 @@
+import React from 'react';
+import { Redirect } from 'react-router-dom';
+import { bindActionCreators } from 'redux';
+import { connect } from 'react-redux';
+import * as authActions from '../Store/Actions/LoginActions';
+import image from '../images/avatar.png';
+import customer from '../images/cutsomer.gif'
+class CustomerLogin extends React.Component {
+    constructor(props) {
+        super(props);
+        this.state = {
+            username: '',
+            password: '',
+            errors: {}
+        }
+        this.handleInputChange = this.handleInputChange.bind(this);
+        this.doCustomerLogin = this.doCustomerLogin.bind(this);
+        this.doCustomersignup=this.doCustomersignup.bind(this);
+    }
+    handleInputChange(event) {
+        this.setState({
+            [event.target.name]: event.target.value
+        });
+    }
+    doCustomerLogin(e) {
+        e.preventDefault();
+        const payload = {
+            customerName: this.state.username,
+            customerPassword: this.state.password
+        }
+
+        if (this.validate()) {
+            this.props.authActions.doCustomerLogin(payload);
+        }
+
+    }
+    doCustomersignup(e){
+        e.preventDefault();
+        const payload = {
+            customerName: this.state.username,
+            customerPassword: this.state.password
+        }
+        if(this.validate()){
+            this.props.authActions.doCustomersignup(payload);
+        }
+    }
+    validate() {
+        let username = this.state.username;
+        let password = this.state.password;
+        let errors = {};
+        let isValid = true;
+
+        if (!username) {
+            isValid = false;
+            errors["username"] = "Please enter your name.";
+        }
+
+        if (!password) {
+            isValid = false;
+            errors["password"] = "Please enter your password.";
+        }
+        this.setState({
+            errors: errors
+        });
+        return isValid;
+    }
+    render() {
+        const { isAuthUser, user } = this.props;
+
+        if (user !== undefined) {
+            if ( isAuthUser) return <Redirect to={{
+                pathname:"/CUSTOMER",
+                state: { username: user.customerName }
+           }}/>;
+            else return alert("invalid user")
+            
+        }
+        // if(isAuthUser === false ) {
+        //     console.log("Login Failed");
+        // }      
+
+        return (
+            <div className="imagecontainer">
+               
+                {
+                    (this.props.isAuthUser === false) 
+                }
+                <div class="imgcontainer">
+                <h1 className="text-danger">CUSTOMER LOGIN</h1>
+                <img src={image} alt="Avatar" class="avatar"/>
+                </div>
+                <div className="marg login-box bodycustomer"><center>
+                {
+                    (this.props.isAuthUser === false) && <div>Login Failed</div>
+                }
+                
+                <p>
+
+
+                    <div className="col-sm-4 textbox">
+                    <i className="fas fa-user"></i>
+                        <input type="text" className="form-control " placeholder="User Id" name="username" id="customerId" value={this.state.username} onChange={this.handleInputChange} required />
+                        <div className="text-danger">{this.state.errors.username}</div>
+                    </div>
+                </p>
+
+
+                <p>
+                    <div className="col-sm-4 textbox">
+                    <i className="fas fa-lock"></i>
+                        <input type="password" className="form-control" placeholder="Password" name="password" id="password" value={this.state.password} onChange={this.handleInputChange} required />
+                        <div className="text-danger">{this.state.errors.password}</div>
+                    </div>
+                </p>
+
+
+                <p className="col-sm-4 d-grid gap-2">
+                    {/* <button onClick={this.doLogin}>Login</button> */}
+                    <button type="button" class="btn btn-outline-danger" onClick={this.doCustomerLogin}>Login</button>
+                    {/* <Button variant="contained" color="primary" onClick={this.doLogin}>Login</Button> */}
+                </p>
+
+                <div >
+				<div className="d-flex justify-content-center links">
+					Don't have an account? &nbsp;<a href="/customersignup">Sign Up</a>
+				</div>
+				<div className="d-flex justify-content-center">
+					<a href="#">Forgot your password?</a>
+				</div>
+			</div>
+
+                </center>
+            </div> 
+            </div>
+        )
+    }
+}
+function mapStateToProps(state) {
+    return {
+                        user: state.LoginReducer.user,
+        isAuthUser: state.LoginReducer.isAuthUser
+    }
+}
+function mapDispatchToProps(dispatch) {
+    return {
+                        authActions: bindActionCreators(authActions, dispatch)
+    }
+};
+export default connect(mapStateToProps, mapDispatchToProps)(CustomerLogin);
+// import React from 'react';
+// import { Redirect } from 'react-router-dom';
+// import { bindActionCreators } from 'redux';
+// import { connect } from 'react-redux';
+// import * as authActions from '../Store/Actions/LoginActions';
+// import '../App.css';
+// import '../index.css';
+
+// class CustomerLoginComponent extends React.Component {
+//     constructor(props) {
+//         super(props);
+//         this.state = {
+//             username: '',
+//             password: '',
+//             userType: 'customer',
+//             errors: {}
+//         }
+//         this.handleInputChange = this.handleInputChange.bind(this);
+//         this.doLogin = this.doLogin.bind(this);
+
+//     }
+//     handleInputChange(event) {
+//         this.setState({
+//             [event.target.name]: event.target.value
+//         });
+//     }
+//     doLogin(e) {
+//         e.preventDefault();
+//         const payload = {
+//             userName: this.state.username,
+//             userPassword: this.state.password,
+//             userType: this.state.userType
+//         }
+
+//         if (this.validate()) {
+//             this.props.authActions.doLogin(payload);
+//         }
+
+//     }
+//     validate() {
+//         let username = this.state.username;
+//         let password = this.state.password;
+//         let userType = this.state.userType;
+//         let errors = {};
+//         let isValid = true;
+
+//         if (!username) {
+//             isValid = false;
+//             errors["username"] = "Please enter your name.";
+//         }
+
+//         if (!password) {
+//             isValid = false;
+//             errors["password"] = "Please enter your password.";
+//         }
+//         if (!userType) {
+//             isValid = false;
+//             errors["userType"] = "Please Select userType.";
+//         }
+
+//         this.setState({
+//             errors: errors
+//         });
+//         return isValid;
+//     }
+//     render() {
+//         const { isAuthUser, user } = this.props;
+
+//         if (user !== undefined) {
+//             if (user.userType === "admin" && isAuthUser) return <Redirect to="/ADMIN" />;
+//             else if (user.userType === "customer" && isAuthUser) return <Redirect to="/CUSTOMER" />;
+//             else return alert("invalid user")
+
+//         }
+//         // if(isAuthUser === false ) {
+//         //     console.log("Login Failed");
+//         // }      
+
+//         return (
+//              <div className="marg login-box bodycustomer"><center>
+//                 {
+//                     (this.props.isAuthUser === false) && <div>Login Failed</div>
+//                 }
+//                 <h1 className="text-danger">CUSTOMER LOGIN</h1>
+//                 <p>
+
+
+//                     <div className="col-sm-4 textbox">
+//                     <i className="fas fa-user"></i>
+//                         <input type="text" className="form-control " placeholder="User Id" name="username" id="customerId" value={this.state.username} onChange={this.handleInputChange} />
+//                         <div className="text-danger">{this.state.errors.username}</div>
+//                     </div>
+//                 </p>
+
+
+//                 <p>
+//                     <div className="col-sm-4 textbox">
+//                     <i className="fas fa-lock"></i>
+//                         <input type="password" className="form-control" placeholder="Password" name="password" id="password" value={this.state.password} onChange={this.handleInputChange} />
+//                         <div className="text-danger">{this.state.errors.password}</div>
+//                     </div>
+//                 </p>
+
+
+//                 <p className="col-sm-4 d-grid gap-2">
+//                     {/* <button onClick={this.doLogin}>Login</button> */}
+//                     <button type="button" class="btn btn-outline-danger" onClick={this.doLogin}>Login</button>
+//                     {/* <Button variant="contained" color="primary" onClick={this.doLogin}>Login</Button> */}
+//                 </p>
+
+//                 <div >
+// 				<div className="d-flex justify-content-center links">
+// 					Don't have an account? &nbsp;<a href="#">Sign Up</a>
+// 				</div>
+// 				<div className="d-flex justify-content-center">
+// 					<a href="#">Forgot your password?</a>
+// 				</div>
+// 			</div>
+
+//                 </center>
+//             </div> 
+           
+//         )
+//     }
+// }
+// function mapStateToProps(state) {
+//     return {
+//         user: state.LoginReducer.user,
+//         isAuthUser: state.LoginReducer.isAuthUser
+//     }
+// }
+// function mapDispatchToProps(dispatch) {
+//     return {
+//         authActions: bindActionCreators(authActions, dispatch)
+//     }
+// };
+// export default connect(mapStateToProps, mapDispatchToProps)(CustomerLoginComponent);

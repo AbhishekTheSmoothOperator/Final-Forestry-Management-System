@@ -1,0 +1,29 @@
+Forestry Management System
+
+1.Name:-N Avinash
+Email id:-nagellaavinash@gmail.com
+Module:-Product
+
+2.Name:-Abhishek kumar
+Email Id:-vtu10370@veltechuniv.edu.in
+Module:-Scheduler
+
+3.Name:-Paresh
+Email Id:-Pareshrawlo@gmail.com
+Module:-Order
+
+4.Name:-r Sai Krishna
+Email Id:-vtu9366@veltechuniv.edu.in
+Module:-Admin module
+
+5.Name:-Bhargava sai
+Email Id:-vtu10376@veltechuniv.edu.in
+Module:-Contracts
+
+6.Name:-Prasanth
+Email Id:-vtu8674@veltechuniv.edu.in
+Module:-Customer
+
+7.Name:-Sai tarun
+Email Id:-ravulapallisaitarun124@gmail.com
+Module:-Land
